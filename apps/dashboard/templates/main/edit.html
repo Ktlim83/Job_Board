@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <title>Edit Job</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Hello {{ user.first_name }} Let's edit your job!</a>
+            <div>
+                <a href="/jobs" class="btn btn-success pull-right">Dashboard</a>
+                <a class="btn btn-success" href="/logout">Log out</a>
+            </div>
+        </nav>
+        <form action="/jobs/{{job.id}}/update" method="post">
+            {% if messages %}
+                {% for message in messages %}
+                {% if 'fieldErrors' in message.extra_tags %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" name="title" id="title" class="form-control" value="{{job.title}}">
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea name="description" id="description" cols="30" rows="10"
+                        class="form-control">{{job.description}}</textarea>
+                </div>
+                <label for="location">Location</label>
+                <input type="text" name="location" id="location" class="form-control" value="{{job.location}}">
+            </div>
+            <button type="submit" class="btn btn-danger">Submit</button>
+
+        </form>
+    </div>
+</body>
+
+</html>

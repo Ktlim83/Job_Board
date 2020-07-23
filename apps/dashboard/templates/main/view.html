@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>View Job</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Hello {{ user.first_name }} these are the job details!</a>
+            <div>
+                <a class="btn btn-success" href="/jobs">Dashboard</a>
+                <a class="btn btn-success" href="/logout">Log out</a>
+            </div>
+        </nav>
+        <h3>{{job.title}}</h3>
+        <div class="jobbox">
+            <p>{{job.description}}</p>
+            <em>
+                <p>Posted by: {{job.user_posted_job.first_name}} {{job.user_posted_job.last_name}} on {{job.created_at}}</p>
+            </em>
+        </div>
+        <a href="/jobs/{{ job.id }}/add"> Add to my jobs </a>
+    </div>
+</body>
+
+</html>

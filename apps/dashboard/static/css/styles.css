@@ -1,0 +1,13 @@
+body {
+    background-color: palegoldenrod;
+}
+
+.col {
+    text-align: center;
+}
+
+.jobbox {
+    background-color: antiquewhite;
+    width: fit-content;
+    border: 1px solid black;
+}

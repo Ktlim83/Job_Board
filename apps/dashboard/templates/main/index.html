@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Hello {{ user.first_name }}! </a>
+            <div>
+                <a class="btn btn-success" href="/logout">Log out</a>
+                <a class="btn btn-success" href="/jobs/new">New Job!</a>
+            </div>
+        </nav>
+
+        <h3>Everyone's jobs:</h3>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Job</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jobs in all_jobs %}
+          <!-- if nobody has taken the job -->
+                {% if jobs.user_with_job.count < 1 %}
+                
+                <tr>
+                    
+                
+                    <td>{{jobs.title}}</td>
+                    <td>{{jobs.location}}</td>
+                
+                    <td><a href="/jobs/{{ jobs.id }}">View </a>|<a href="/jobs/{{ jobs.id }}/add"> Add </a> |
+                        {% if jobs.user_posted_job.id == request.session.user_id %}
+                        <a href="/jobs/{{ jobs.id }}/edit">Edit </a>|<a href="/jobs/{{ jobs.id }}/delete"> Remove </a> |
+                    </td>
+                        {% endif %}
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <h3>{{ user.first_name }}'s jobs:</h3>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Job</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for jobs in all_jobs %}
+            
+                        {% if user in jobs.user_with_job.all %}
+                    <td>{{jobs.title}}</td>
+                    <td>{{jobs.location}}</td>
+                    <td><a href="/jobs/{{ jobs.id }}">View </a>|<a href="/jobs/{{ jobs.id }}/delete" role="button" > Done </a>|<a href="/jobs/{{ jobs.id }}/giveup" role="button" > Give Up </a>
+                        {% if jobs.user_posted_job.id == request.session.user_id %}
+                        | <a href="/jobs/{{ jobs.id }}/delete"> Remove </a>
+                         {% endif %} 
+                    </td>
+                        {% endif %} 
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+</body>
+
+</html>
